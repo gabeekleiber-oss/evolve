@@ -1,0 +1,54 @@
+name: Package Unfamiliar Ground
+
+on:
+  push:
+    branches:
+      - feature/alien-world-four-providers-launcher
+    paths:
+      - "alien-world/**"
+      - ".github/workflows/package-alien-world.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-package:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: alien-world
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: alien-world/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+      - name: Build production game
+        run: npm run build
+      - name: Prepare clean Windows package
+        shell: pwsh
+        run: |
+          $package = Join-Path $env:RUNNER_TEMP "Unfamiliar-Ground"
+          New-Item -ItemType Directory -Force -Path $package | Out-Null
+          Get-ChildItem -Force | Where-Object {
+            $_.Name -notin @("node_modules", ".env", "data")
+          } | Copy-Item -Destination $package -Recurse -Force
+          if (Test-Path (Join-Path $package "data\world.json")) {
+            Remove-Item (Join-Path $package "data\world.json") -Force
+          }
+          Compress-Archive -Path (Join-Path $package "*") -DestinationPath (Join-Path $env:RUNNER_TEMP "Unfamiliar-Ground-Windows.zip") -Force
+      - name: Upload runnable ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: Unfamiliar-Ground-Windows
+          path: ${{ runner.temp }}/Unfamiliar-Ground-Windows.zip
+          if-no-files-found: error
+          retention-days: 30
