@@ -44,7 +44,9 @@ jobs:
           if (Test-Path (Join-Path $package "data\world.json")) {
             Remove-Item (Join-Path $package "data\world.json") -Force
           }
-          Compress-Archive -Path (Join-Path $package "*") -DestinationPath (Join-Path $env:RUNNER_TEMP "Unfamiliar-Ground-Windows.zip") -Force
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $zip = Join-Path $env:RUNNER_TEMP "Unfamiliar-Ground-Windows.zip"
+          [System.IO.Compression.ZipFile]::CreateFromDirectory($package, $zip)
       - name: Upload runnable ZIP
         uses: actions/upload-artifact@v4
         with:
