@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111311" />
+    <meta name="description" content="An open-ended alien world, built a little at a time by AI." />
+    <title>Unfamiliar Ground</title>
+  </head>
+  <body>
+    <main id="game">
+      <div id="scene" aria-label="First-person view of a growing alien world"></div>
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark">◌</span><span>UNFAMILIAR GROUND</span></div>
+        <div class="cycle"><span class="pulse"></span><span id="cycle-count">WAITING FOR A FIRST THOUGHT</span></div>
+      </header>
+      <section class="intro" id="intro">
+        <p class="eyebrow">A PLACE BEFORE ITS BEGINNING</p>
+        <h1>Nothing is decided<br />here. <em>Not even what’s alive.</em></h1>
+        <p class="intro-copy">A quiet expanse. Somewhere beyond it, a world is learning what it might become.</p>
+        <button id="enter-button" class="primary-button">Step into the quiet <span>↗</span></button>
+      </section>
+      <aside class="world-note" id="world-note">
+        <p class="eyebrow">FIELD NOTE <span id="note-cycle">00</span></p>
+        <p id="note-text">The ground has not yet offered an explanation.</p>
+      </aside>
+      <aside class="agent-card">
+        <div class="agent-heading"><span class="agent-orb">✳</span><div><span class="eyebrow">WORLD-MAKING SYSTEM</span><strong id="agent-status">Listening for a maker</strong></div></div>
+        <p id="agent-message">This place is deliberately empty. Add a model key to let its first idea arrive.</p>
+        <button id="grow-button" class="quiet-button">Invite a new thought <span>↗</span></button>
+      </aside>
+      <footer class="footer">
+        <div class="controls"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> MOVE</span><span><kbd>MOUSE</kbd> LOOK</span><span><kbd>ESC</kbd> RELEASE</span></div>
+        <span class="footer-right">A WORLD WITH NO SOURCE MATERIAL</span>
+      </footer>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
